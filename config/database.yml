@@ -1,0 +1,45 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  collation: utf8mb4_general_ci
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: password
+  host: localhost
+
+development:
+  primary:
+    <<: *default
+    database: study_force_db_development
+    host: db
+  primary_replica:
+    <<: *default
+    database: study_force_db_development
+    host: db
+    replica: true
+
+dev_remote:
+  primary:
+    <<: *default
+    database: study_force_db_development
+    host: <%= Rails.application.credentials.dig(:rds, :primary, :host) %>
+    username: <%= Rails.application.credentials.dig(:rds, :primary, :username) %>
+    password: <%= Rails.application.credentials.dig(:rds, :primary, :password) %>
+  primary_replica:
+    <<: *default
+    database: study_force_db_development
+    host: <%= Rails.application.credentials.dig(:rds, :replica, :host) %>
+    username: <%= Rails.application.credentials.dig(:rds, :replica, :username) %>
+    password: <%= Rails.application.credentials.dig(:rds, :replica, :password) %>
+    replica: true
+
+test:
+  primary:
+    <<: *default
+    database: study_force_db_test
+    host: db
+  primary_replica:
+    <<: *default
+    database: study_force_db_test
+    host: db
+    replica: true

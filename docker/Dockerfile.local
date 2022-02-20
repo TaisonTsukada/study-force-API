@@ -1,0 +1,22 @@
+FROM ruby:3.0.0
+ENV LANG C.UTF-8
+ENV RAILS_ENV development
+
+ENV TZ=Asia/Tokyo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+ARG MYSQL_ROOT_PASSWORD
+ENV MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev
+
+RUN wget --quiet -O - /tmp/pubkey.gpg https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update -qq && apt-get install -y build-essential vim jq
+WORKDIR /web
+
+COPY . /web
+
+RUN bundle config set path 'vendor/bundle' && bundle install
+
+CMD rm -f tmp/pids/server.pid && bundle install --path=vendor/bundle && bundle exec rails s -b '0.0.0.0' -p 7000
