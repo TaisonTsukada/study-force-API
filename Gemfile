@@ -57,6 +57,9 @@ group :development do
   gem 'rubocop-rspec', require: false
   gem 'meowcop', require: false
   gem 'google_drive'
+  gem 'devise'
+  gem 'devise_token_auth'
+  gem "graphiql-rails"
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

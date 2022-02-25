@@ -1,0 +1,32 @@
+"""
+An ISO 8601-encoded datetime
+"""
+scalar ISO8601DateTime
+
+type Mutation {
+  """
+  An example field added by the generator
+  """
+  testField: String!
+}
+
+type Query {
+  """
+  Get User
+  """
+  user(
+    """
+    User ID
+    """
+    id: ID
+  ): User!
+}
+
+type User {
+  createdAt: ISO8601DateTime!
+  email: String!
+  id: ID!
+  image: String
+  name: String!
+  updatedAt: ISO8601DateTime!
+}
