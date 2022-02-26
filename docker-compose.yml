@@ -27,12 +27,3 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
-  swagger-ui:
-    image: swaggerapi/swagger-ui
-    container_name: "swagger-ui"
-    ports:
-      - "7001:8080"
-    volumes:
-      - ./docs/swagger/:/swagger
-    environment:
-      SWAGGER_JSON: /swagger/api/index.yml
