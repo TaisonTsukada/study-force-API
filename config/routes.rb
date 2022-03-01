@@ -2,8 +2,14 @@ Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
 
   namespace :api do
-    scope :v1 do
-      mount_devise_token_auth_for 'User', at: 'auth'
+    namespace :v1 do
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+        registrations: 'api/v1/auth/registrations',
+        sessions: 'api/v1/auth/sessions'
+      }
+      # namespace :auth do
+      #   resources :sessions, only: %i[index]
+      # end
     end
   end
 
